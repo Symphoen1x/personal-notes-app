@@ -1,70 +1,84 @@
-# Getting Started with Create React App
+# Aplikasi Catatan Pribadi
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aplikasi web untuk membuat dan mengelola catatan pribadi, dibangun dengan **React** dan **Vite**. Data catatan dan akun pengguna disimpan melalui [Dicoding Notes API](https://notes-api.dicoding.dev/v1).
 
-## Available Scripts
+## Fitur
 
-In the project directory, you can run:
+- **Autentikasi** — registrasi akun baru, login, dan logout (token disimpan di `localStorage`).
+- **Kelola catatan** — tambah, lihat detail, hapus catatan.
+- **Arsip** — arsipkan dan batalkan arsip catatan, dengan halaman khusus untuk catatan terarsip.
+- **Pencarian** — cari catatan berdasarkan judul; kata kunci tersimpan di URL (`?keyword=...`) sehingga bisa dibagikan.
+- **Tema terang/gelap** — pilihan tema tersimpan di `localStorage`.
+- **Halaman 404** untuk rute yang tidak ditemukan.
 
-### `npm start`
+## Teknologi
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- [React 18](https://react.dev/)
+- [Vite 4](https://vitejs.dev/)
+- [React Router 7](https://reactrouter.com/)
+- [React Icons](https://react-icons.github.io/react-icons/)
+- [PropTypes](https://www.npmjs.com/package/prop-types)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Menjalankan Secara Lokal
 
-### `npm test`
+Pastikan [Node.js](https://nodejs.org/) sudah terpasang.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+# clone repository
+git clone https://github.com/Symphoen1x/personal-notes-app.git
+cd personal-notes-app
 
-### `npm run build`
+# install dependencies
+npm install
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# jalankan development server
+npm run dev
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Buka alamat yang ditampilkan di terminal (default: http://localhost:5173).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Script yang Tersedia
 
-### `npm run eject`
+| Perintah          | Keterangan                                              |
+| ----------------- | ------------------------------------------------------- |
+| `npm run dev`     | Menjalankan development server dengan hot reload.       |
+| `npm run build`   | Membuat build produksi ke folder `dist/`.               |
+| `npm run preview` | Menjalankan build produksi secara lokal untuk dicek.    |
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Struktur Proyek
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+src/
+├── components/
+│   ├── layout/        # TopBar (navigasi, tombol tema, logout)
+│   └── notes/         # NoteList, NoteItem, NoteDetail, NoteInput, SearchBar
+├── contexts/          # ThemeContext
+├── hooks/             # useInput (custom hook untuk input form)
+├── pages/
+│   ├── auth/          # LoginPage, RegisterPage
+│   ├── HomePage.jsx   # daftar catatan aktif
+│   ├── ArchivePage.jsx
+│   ├── AddNotePage.jsx
+│   ├── DetailPage.jsx
+│   └── NotFoundPage.jsx
+├── styles/            # style.css
+├── utils/             # network-data.js (pemanggilan API), helper lain
+├── App.jsx            # routing & state autentikasi/tema
+└── index.jsx          # entry point
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Rute
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+| Path            | Halaman                          |
+| --------------- | -------------------------------- |
+| `/`             | Daftar catatan aktif             |
+| `/archives`     | Daftar catatan terarsip          |
+| `/notes/new`    | Tambah catatan baru              |
+| `/notes/:id`    | Detail catatan                   |
+| `/register`     | Registrasi (saat belum login)    |
 
-## Learn More
+Saat belum login, semua rute lain akan menampilkan halaman login.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Deployment
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Proyek ini siap di-deploy ke [Vercel](https://vercel.com/). Import repository ini di Vercel — framework **Vite** akan terdeteksi otomatis (build command `npm run build`, output `dist`). File [`vercel.json`](vercel.json) sudah mengatur rewrite ke `index.html` agar rute seperti `/notes/:id` tetap berfungsi saat halaman di-refresh.
